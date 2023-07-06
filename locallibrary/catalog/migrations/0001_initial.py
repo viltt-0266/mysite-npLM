@@ -62,3 +62,4 @@ class Migration(migrations.Migration):
             field=models.ManyToManyField(help_text='Select a genre for this book', to='catalog.Genre'),
         ),
     ]
+
