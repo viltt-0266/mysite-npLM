@@ -1,12 +1,11 @@
 from django.contrib import admin
+
+# Register your models here.
+from django.contrib import admin
 from .models import Author, Genre, Book, BookInstance
-
-
-
 admin.site.register (Genre)
 
 # admin.site.register(Author)
-# Define the admin class
 # Define the admin class
 
 class AuthorAdmin(admin.ModelAdmin):
@@ -15,7 +14,6 @@ class AuthorAdmin(admin.ModelAdmin):
     fields = ['first_name', 'last_name', ('date_of_birth', 'date_of_death')]
 # Register the admin class with the associated model
 admin.site.register(Author, AuthorAdmin)
-# Register the Admin classes for Book using the decorator
 # Register the Admin classes for Book using the decorator
 class BooksInstanceInline(admin.TabularInline):
     model = BookInstance
@@ -39,4 +37,4 @@ class BookInstanceAdmin(admin.ModelAdmin):
             'fields': ('status', 'due_back')
         }),
     )
-
+    
