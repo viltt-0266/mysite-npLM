@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/details.css' %}" />
+  </head>
+  <body>
+    {% block content %}
+      <h1>Author: {{ author }}</h1>
+      <p> {{ author.date_of_birth }}</p>
+      <div class = "books-block">
+        <h4>Books</h4>
+        {% for book in author.book_set.all %}
+          <h5 class= "books-titile">{{ book.title }}</h5>
+          <p class = "books-content">{{ book.summary }}</p>
+        {% endfor %}
+      </div>
+    {% endblock %}
+  </body>
+</html>
