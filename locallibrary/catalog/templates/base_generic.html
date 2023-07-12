@@ -12,6 +12,9 @@
     {% bootstrap_javascript %}
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    {% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/details.css' %}">
+    {% endblock %}
   </head>
   <body>
     <div class="container-fluid">

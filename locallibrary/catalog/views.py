@@ -1,16 +1,14 @@
-from django.shortcuts import render
+import datetime
 from django.views import generic
 # Create your views here.
 from .models import Book, Author, BookInstance, Genre
 from django.contrib.auth.mixins import LoginRequiredMixin
-import datetime
 from django.contrib.auth.decorators import login_required, permission_required
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from catalog.forms import RenewBookForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
 
 def index(request):
     """View function for home page of site."""
@@ -47,6 +45,8 @@ class BookDetailView(generic.DetailView):
 
 class AuthorListView(generic.ListView):
     model = Author
+    paginate_by = 10
+
     
 class AuthorDetailView(generic.DetailView):
     model = Author
@@ -80,25 +80,16 @@ class LoanedBooksByStaffListView(LoginRequiredMixin,generic.ListView):
 @login_required
 @permission_required('catalog.can_mark_returned', raise_exception=True)
 def renew_book_librarian(request, pk):
-    """View function for renewing a specific BookInstance by librarian."""
+    """View function for renewing a specific BookInstance by a librarian."""
     book_instance = get_object_or_404(BookInstance, pk=pk)
 
-    # If this is a POST request then process the Form data
+    # If this is a POST request, process the Form data
     if request.method == 'POST':
-
-        # Create a form instance and populate it with data from the request (binding):
         form = RenewBookForm(request.POST)
-
-        # Check if the form is valid:
         if form.is_valid():
-            # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
             book_instance.due_back = form.cleaned_data['renewal_date']
             book_instance.save()
-
-            # redirect to a new URL:
             return HttpResponseRedirect(reverse('all-borrowed'))
-
-    # If this is a GET (or any other method) create the default form.
     else:
         proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
         form = RenewBookForm(initial={'renewal_date': proposed_renewal_date})
@@ -107,7 +98,6 @@ def renew_book_librarian(request, pk):
         'form': form,
         'book_instance': book_instance,
     }
-
     return render(request, 'catalog/book_renew_librarian.html', context)
 
 class AuthorCreate(CreateView):

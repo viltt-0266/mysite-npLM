@@ -1,9 +1,8 @@
+import uuid
+from datetime import date
 from django.db import models
 from django.urls import reverse
-import uuid
 from django.contrib.auth.models import User
-from datetime import date
-
 # Create your models here.
 class Genre(models.Model):
     """Model representing a book genre."""
@@ -66,7 +65,7 @@ class Author(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     date_of_birth = models.DateField(null=True, blank=True)
-    date_of_death = models.DateField('Died', null=True, blank=True)
+    date_of_death = models.DateField('died', null=True, blank=True)
 
     class Meta:
         ordering = ['last_name', 'first_name']
