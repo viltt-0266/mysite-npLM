@@ -1,0 +1,14 @@
+.books-block{
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-right: 100px;
+    text-align: justify;
+    color: black;
+}
+.books-titile{
+    color: #6666CC;
+}
+.books-content{
+    margin-left: 20px;
+    margin-top: 20px;
+}
